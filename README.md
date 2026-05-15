@@ -46,17 +46,6 @@
             └── notes-template.tex
 ```
 
-## 包含内容
-
-- `skills/youtube-render-pdf/SKILL.md`
-  YouTube 版 skill 的主说明文件，定义适用场景、工作流、写作规则、配图规则和最终交付要求。
-- `skills/bilibili-render-pdf/SKILL.md`
-  Bilibili 版 skill 的主说明文件，在 YouTube 版基础上增加了字幕回退、分P处理等平台适配。
-- `skills/*/assets/notes-template.tex`
-  共享的默认 LaTeX 模板，包含首页封面位、盒子样式、代码块样式和正文占位结构。
-- `skills/*/agents/openai.yaml`
-  给 agent UI 使用的显示名称、简介和默认提示。
-
 ## 使用方式
 
 如果你想在本地 Codex 环境中使用这些 skill，可以把对应目录放到你的技能目录中：
@@ -85,11 +74,6 @@ cp -R skills/bilibili-render-pdf ~/.codex/skills/
 
 此外，运行 skill 的 coding agent 必须具备一定的读图能力，否则很难选择关键帧，很难做到图文align（即至少是一个还不错的 vlm model，ps. MiniMax 2.7 只是一个纯文本模型）。
 
-## 适用场景
-
-- 技术课程笔记整理
-- YouTube / Bilibili 教学视频转 LaTeX 讲义
-- 需要封面图、关键帧和总结章节的高质量课程文档生成
 
 ## subagents 的触发
 
@@ -103,6 +87,10 @@ $youtube-render-pdf   https://www.youtube.com/watch?v=vXb2QYOUzl4 请 spwan 多 
   - 1 个 consistency agent：检查重复定义、前后术语不一致、章节衔接断裂
 ```
 
+## tips
+
+- 强烈建议在 codex 基于这个 skill 给出第一版结果之后，增加一个follow up question：`spwan 一个独立的复核 agent，基于原始字幕文件，check 是否有重要或细节信息的漏召回，不断交互，直至复核 agent 觉得 tex 信息已完备。`
+  - 以缓解 ai summary 的共性问题，就是召回不足；
 
 ## License
 
