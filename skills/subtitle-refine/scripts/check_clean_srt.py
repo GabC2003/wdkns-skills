@@ -52,6 +52,7 @@ class Entry:
     start_ms: int
     end_ms: int
     text: str
+    text_line_count: int
 
 
 def parse_time(value: str) -> tuple[int, int]:
@@ -82,8 +83,17 @@ def parse_srt(path: Path) -> list[Entry]:
             raise ValueError(f"{path}: malformed block: {block!r}")
         block_id = lines[0].strip()
         start_ms, end_ms = parse_time(lines[1].strip())
-        text_line = " ".join(line.strip() for line in lines[2:]).strip()
-        entries.append(Entry(block_id=block_id, start_ms=start_ms, end_ms=end_ms, text=text_line))
+        text_lines = lines[2:]
+        text_line = " ".join(line.strip() for line in text_lines).strip()
+        entries.append(
+            Entry(
+                block_id=block_id,
+                start_ms=start_ms,
+                end_ms=end_ms,
+                text=text_line,
+                text_line_count=len(text_lines),
+            )
+        )
     return entries
 
 
@@ -266,7 +276,7 @@ def main() -> int:
         text = entry.text
         if not text:
             issues.append(f"{entry.block_id}: empty text")
-        if "\n" in text:
+        if entry.text_line_count > 1:
             issues.append(f"{entry.block_id}: multiline text")
         if PUNCT_RE.search(text):
             issues.append(f"{entry.block_id}: punctuation remains in {text!r}")
