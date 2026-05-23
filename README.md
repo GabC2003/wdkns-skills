@@ -83,14 +83,14 @@ cp -R skills/bilibili-render-pdf ~/.codex/skills/
 $youtube-render-pdf   https://www.youtube.com/watch?v=vXb2QYOUzl4 请 spwan 多 sub agents 执行，隔离上下文，避免 master agent 的“上下文焦虑”， 形成一个完整全面的 pdf：
   - 1 个 outline agent：先定全局目录、术语、符号表、章节边界等
   - 5 个 writer agents：各自直接写成完整章节草稿，落盘成 section_*.tex
-  - 1 个 figure agent：单独负责抽帧、筛图、crop、脚本生成新的示意图】、图注和时间脚注等；
+  - 1 个 figure agent：单独负责抽帧、筛图、crop、脚本生成新的示意图、图注和时间脚注等；
   - 1 个 consistency agent：检查重复定义、前后术语不一致、章节衔接断裂
 ```
 
 ## tips
 
-- 强烈建议在 codex 基于这个 skill 给出第一版结果之后，增加一个follow up question：`spwan 一个独立的复核 agent，基于原始字幕文件，check 是否有重要或细节信息的漏召回，不断交互，直至复核 agent 觉得 tex 信息已完备。`
-  - 以缓解 ai summary 的共性问题，就是召回不足；
+- 强烈建议在 codex 基于这个 skill 给出第一版结果之后，增加一个follow up question：`spwan 一个独立的reviewer agent，基于原始字幕文件，check 是否有重要、细节及有趣等一切有意的信息的漏召回，仅反馈，不修改，不断交互，直至reviewer agent 觉得 tex 信息已完备。`
+  - 以缓解 ai extraction/summary 的共性问题，就是召回不足；
 
 ## License
 
